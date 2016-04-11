@@ -1,4 +1,4 @@
-angular.module('ARLearn').controller('HomeController', function ($scope, Store, Game) {
+angular.module('ARLearn').controller('HomeController', function ($scope, Store, Game, config) {
 
     //$scope.games = {games: []};
     $scope.games = [];
@@ -23,5 +23,9 @@ angular.module('ARLearn').controller('HomeController', function ($scope, Store, 
         }
     });
 
+    $scope.thumbnailUrl = function(gameId) {
+
+        return config.server+'/game/'+gameId+'/gameThumbnail';
+    }
 
 });
