@@ -143,7 +143,7 @@ public class AnswerJspUtil {
 	
 	public static HashMap<Long, String> getActions(Long runId) {
 		HashMap<Long, String> result = new HashMap<Long, String>();
-		List<Action> actions = ActionManager.getActions(runId, null, null, null, null);
+		List<Action> actions = ActionManager.getActions(runId, null, (String) null, null, null);
 		for (Iterator iterator = actions.iterator(); iterator.hasNext();) {
 			Action action = (Action) iterator.next();
 			if (action.getGeneralItemId() != null) {

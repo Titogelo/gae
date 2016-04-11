@@ -157,4 +157,8 @@ public class ActionDelegator extends GoogleDelegator {
     public Object getActionsFromUntil(Long runIdentifier, Long from, Long until, String cursor) {
         return ActionManager.getActions(runIdentifier, from, until, cursor);
     }
+
+    public Object getActionsFromUntil(Long runIdentifier, String user, Long from, Long until, String cursor) {
+        return ActionManager.getActions(runIdentifier, user, from, until, cursor);
+    }
 }

@@ -94,15 +94,17 @@ public class MyGames extends Service {
 	@CacheControlHeader("no-cache")
 	public String getGames(@HeaderParam("Authorization") String token, 
 			@DefaultValue("application/json") @HeaderParam("Accept") String accept,
-			@QueryParam("from") Long from,
-			@QueryParam("until") Long until) {
+//			@QueryParam("from") Long from,
+//			@QueryParam("until") Long until,
+			@QueryParam("resumptionToken") String cursor
+						   ) {
 		if (!validCredentials(token))
 			return serialise(getInvalidCredentialsBean(), accept);
-		if (from == null) {
-			from = 0l;
-		}
+//		if (from == null) {
+//			from = 0l;
+//		}
 		GameDelegator qg = new GameDelegator(account, token);
-		return serialise(qg.getGames(from, until), accept);
+		return serialise(qg.getGames(cursor), accept);
 	}
 	
 	@POST

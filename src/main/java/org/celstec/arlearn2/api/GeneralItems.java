@@ -36,6 +36,7 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import org.celstec.arlearn2.beans.game.Game;
 import org.celstec.arlearn2.beans.generalItem.GeneralItem;
 import org.celstec.arlearn2.beans.generalItem.GeneralItemList;
+import org.celstec.arlearn2.beans.generalItem.OpenBadge;
 import org.celstec.arlearn2.cache.CSVCache;
 import org.celstec.arlearn2.delegators.GameDelegator;
 import org.celstec.arlearn2.delegators.GeneralItemDelegator;
@@ -47,6 +48,13 @@ import org.celstec.arlearn2.tasks.beans.UpdateMdHash;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.jdom.Document;
+import org.jdom.input.SAXBuilder;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 
 
 @Path("/generalItems")
@@ -77,6 +85,7 @@ public class GeneralItems extends Service {
                     return serialise(gid.getGeneralItems(gameIdentifier, from, until), accept);
                 }
 	}
+
 
 	@POST
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })

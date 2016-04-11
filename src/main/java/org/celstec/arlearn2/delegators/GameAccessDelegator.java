@@ -94,6 +94,19 @@ public class GameAccessDelegator extends GoogleDelegator {
         return rl;
     }
 
+    public GameAccessList getGamesAccess(String account, String resumptionToken) {
+        StringTokenizer st = new StringTokenizer(account, ":");
+        int accountType = 0;
+        String localID = null;
+        if (st.hasMoreTokens()) {
+            accountType = Integer.parseInt(st.nextToken());
+        }
+        if (st.hasMoreTokens()) {
+            localID = st.nextToken();
+        }
+        return GameAccessManager.getGameList(accountType, localID, resumptionToken);
+    }
+
     public GameAccessList getGamesAccess(Long from, Long until) {
         GameAccessList gl = new GameAccessList();
         String myAccount = null;
@@ -106,6 +119,20 @@ public class GameAccessDelegator extends GoogleDelegator {
             return gl;
         }
         return getGamesAccess(myAccount, from, until);
+    }
+
+    public GameAccessList getGamesAccess(String resumptionToken) {
+        GameAccessList gl = new GameAccessList();
+        String myAccount = null;
+        if (account != null) {
+            myAccount = account.getFullId();
+        } else
+            myAccount = UserLoggedInManager.getUser(authToken);
+        if (myAccount == null) {
+            gl.setError("login to retrieve your list of games");
+            return gl;
+        }
+        return getGamesAccess(myAccount, resumptionToken);
     }
 
     public GameAccessList getAccessList(Long gameIdentifier) {

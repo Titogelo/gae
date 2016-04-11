@@ -64,6 +64,7 @@ public class UserManager {
 		Long currentTime = System.currentTimeMillis();
 		user.setLastModificationDate(currentTime);
 		user.setLastModificationDateGame(currentTime);
+		user.setDeleted(false);
 		if (bean.getDeleted()!= null && bean.getDeleted()) user.setDeleted(bean.getDeleted());
 
 		user.setId();
@@ -159,15 +160,15 @@ public class UserManager {
 		String params = null;
 		Object args[] = null;
 		if (from == null) {
-			filter = "email == emailParam & lastModificationDateGame <= untilParam";
+			filter = "email == emailParam & lastModificationDateGame <= untilParam & deleted == false";
 			params = "String emailParam, Long untilParam";
 			args = new Object[] { email, until };
 		} else if (until == null) {
-			filter = "email == emailParam & lastModificationDateGame >= fromParam";
+			filter = "email == emailParam & lastModificationDateGame >= fromParam & deleted == false";
 			params = "String emailParam, Long fromParam";
 			args = new Object[] { email, from };
 		} else {
-			filter = "email == emailParam & lastModificationDateGame >= fromParam & lastModificationDateGame <= untilParam";
+			filter = "email == emailParam & lastModificationDateGame >= fromParam & lastModificationDateGame <= untilParam & deleted == false";
 			params = "String emailParam, Long fromParam, Long untilParam";
 			args = new Object[] { email, from, until };
 		}

@@ -27,8 +27,8 @@ public class AccountApi extends Service {
 			@DefaultValue("application/json") @HeaderParam("Accept") String accept,
 			String contact
 			)  {
-		if (!validCredentials(token))
-			return serialise(getInvalidCredentialsBean(), accept);
+//		if (!validCredentials(token))
+//			return serialise(getInvalidCredentialsBean(), accept);
 		Object inContact = deserialise(contact, Account.class, contentType);
 		if (inContact instanceof java.lang.String)
 			return serialise(getBeanDoesNotParseException((String) inContact), accept);
@@ -54,6 +54,25 @@ public class AccountApi extends Service {
 		AccountDelegator ad = new AccountDelegator(this);
 		return serialise(ad.createAnonymousContact((Account) inContact), accept);
 	}
+
+//	@POST
+//	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+//	@CacheControlHeader("no-cache")
+//	@Path("/createAnonymousContact")
+//	public String createAnonymContactPOST(@HeaderParam("Authorization") String token,
+//									  @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+//									  @DefaultValue("application/json") @HeaderParam("Accept") String accept,
+//									  String contact
+//	)  {
+//		Object inContact = deserialise(contact, Account.class, contentType);
+//		if (inContact instanceof java.lang.String)
+//			return serialise(getBeanDoesNotParseException((String) inContact), accept);
+//
+//		if (((Account)inContact).getPicture()== null) ((Account)inContact).setPicture("");
+//
+//		AccountDelegator ad = new AccountDelegator(this);
+//		return serialise(ad.createAnonymousContact((Account) inContact), accept);
+//	}
 	
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

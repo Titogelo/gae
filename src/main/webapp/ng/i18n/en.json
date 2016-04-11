@@ -1,0 +1,11 @@
+{
+  "arl": {
+    "login": {
+      "signingoogle": "Sign in using Google"
+    },
+    "games": {
+      "game": "Game",
+      "gamelibrary": "Game Library"
+    }
+  }
+}

@@ -70,28 +70,22 @@ public class GameDelegator extends GoogleDelegator {
         super(account, token);
     }
 
-    public GamesList getGames(Long from, Long until) {
+    public GamesList getGames(String resumptionToken) {
+        GameAccessDelegator gad = new GameAccessDelegator(this);
         GamesList gl = new GamesList();
-        String myAccount = null;
-        if (account != null) {
-            myAccount = account.getFullId();
-        } else
-            myAccount = UserLoggedInManager.getUser(authToken);
-        if (myAccount == null) {
-            gl.setError("login to retrieve your list of games");
-            return gl;
+        GameAccessList gameAccessList = gad.getGamesAccess(resumptionToken);
+        gl.setServerTime(gameAccessList.getServerTime());
+        gl.setResumptionToken(gameAccessList.getResumptionToken());
+        for(GameAccess ga: gameAccessList.getGameAccess()){
+            gl.addGame(getGame(ga.getGameId()));
         }
-        // List<Game> list = MyGamesCache.getInstance().getGameList(null, null,
-        // myAccount, null, null);
-        // List<Game> list = GameManager.getGames(myAccount, from, until);
-        // if (list == null) {
-        // list = GameManager.getGames(null, null, myAccount, null, null);
-        // MyGamesCache.getInstance().putGameList(list, null, null, myAccount,
-        // null, null);
-        // }
-        gl.setGames(GameManager.getGames(myAccount, from, until));
-        gl.setServerTime(System.currentTimeMillis());
         return gl;
+//        GamesList gl = new GamesList();
+//
+//
+//        gl.setGames(GameManager.getGames(myAccount, from, until));
+//        gl.setServerTime(System.currentTimeMillis());
+//        return gl;
     }
 
     public GamesList getParticipateGames() {

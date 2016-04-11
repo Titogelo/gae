@@ -62,4 +62,9 @@
         <property name="lastModificationDate" direction="desc"/>
     </datastore-index>
 
+    <datastore-index kind="UserJDO" ancestor="false" source="manual">
+        <property name="deleted" direction="asc"/>
+        <property name="email" direction="asc"/>
+        <property name="lastModificationDateGame" direction="asc"/>
+    </datastore-index>
 </datastore-indexes>

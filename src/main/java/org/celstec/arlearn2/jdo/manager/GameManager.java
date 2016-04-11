@@ -103,6 +103,8 @@ public class GameManager {
         gameJdo.setLng(game.getLng());
         gameJdo.setLanguage(game.getLanguage());
         gameJdo.setTheme(game.getTheme());
+		gameJdo.setAppStoreUrl(game.getAppStoreUrl());
+		gameJdo.setGooglePlayUrl(game.getGooglePlayUrl());
 		if (game.getDeleted() != null) gameJdo.setDeleted(game.getDeleted());
 		if (game.getLicenseCode() !=null) gameJdo.setLicenseCode(game.getLicenseCode());
 
@@ -156,6 +158,7 @@ public class GameManager {
         }
     }
 
+	@Deprecated
 	public static List<Game> getGames(String email, Long from, Long until) {
 		ArrayList<Game> returnProgressDefinitions = new ArrayList<Game>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -212,6 +215,8 @@ public class GameManager {
         game.setLng(jdo.getLng());
         game.setLat(jdo.getLat());
         game.setLanguage(jdo.getLanguage());
+		game.setAppStoreUrl(jdo.getAppStoreUrl());
+		game.setGooglePlayUrl(jdo.getGooglePlayUrl());
         if (jdo.getTheme()!=null) game.setTheme(jdo.getTheme());
 		if (jdo.getLicenseCode() !=null) game.setLicenseCode(jdo.getLicenseCode());
 		if (jdo.getLastModificationDate() != null) {

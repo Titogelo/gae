@@ -189,4 +189,60 @@ public class ActionManager {
         return returnList;
 
     }
+
+	public static ActionList getActions(Long runId, String user, Long from, Long until, String cursorString) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		ActionList returnList = new ActionList();
+		try {
+			Query query = pm.newQuery(ActionJDO.class);
+			if (cursorString != null) {
+
+				Cursor c = Cursor.fromWebSafeString(cursorString);
+				Map<String, Object> extensionMap = new HashMap<String, Object>();
+				extensionMap.put(JDOCursorHelper.CURSOR_EXTENSION, c);
+				query.setExtensions(extensionMap);
+			}
+			query.setRange(0, ACTIONS_IN_LIST);
+			String filter = null;
+			String params = null;
+			Object args[] = null;
+			if (from == null) {
+				filter = "runId == runIdParam & time <= untilParam & userEmail == userParam";
+				params = "Long runIdParam, Long untilParam, String userParam";
+				args = new Object[] { runId, until, user };
+			} else if (until == null) {
+				filter = "runId == runIdParam & time >= fromParam & userEmail == userParam";
+				params = "Long runIdParam, Long fromParam, String userParam";
+				args = new Object[] { runId, from, user };
+			} else {
+				filter = "runId == runIdParam & time >= fromParam & time <= untilParam & userEmail == userParam";
+				params = "Long runIdParam, Long fromParam, Long untilParam, String userParam";
+				args = new Object[] { runId, from, until, user };
+			}
+
+			query.setFilter(filter);
+			query.declareParameters(params);
+			List<ActionJDO> results = (List<ActionJDO>) query.executeWithArray(args);
+			Iterator<ActionJDO> it = (results).iterator();
+			int i = 0;
+			while (it.hasNext()) {
+				i++;
+				ActionJDO object = it.next();
+				returnList.addAction(toBean(object));
+
+			}
+			Cursor c = JDOCursorHelper.getCursor(results);
+			cursorString = c.toWebSafeString();
+			if (returnList.getActions().size() == ACTIONS_IN_LIST) {
+				returnList.setResumptionToken(cursorString);
+			}
+			returnList.setServerTime(System.currentTimeMillis());
+
+
+		}finally {
+			pm.close();
+		}
+		return returnList;
+
+	}
 }

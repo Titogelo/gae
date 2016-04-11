@@ -1,0 +1,87 @@
+<arl-header></arl-header>
+
+<section class="content-header">
+    <h1>
+        ARLearn
+        <small> {{'arl.games.gamelibrary' | translate}} </small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Widgets</li>
+    </ol>
+</section>
+
+<section class="content">
+
+    <div class="row" >
+
+        <div class="col-lg-3 col-xs-6" ng-repeat="game in games | orderBy: 'rank'">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>{{game.title}}</h3>
+
+                    <p>{{game.rank}}</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-shopping-cart"></i>
+                </div>
+                <a href="#/games/{{game.gameId}}" class="small-box-footer">
+                    More info <i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+
+
+<!--<section class="content">-->
+    <!--&lt;!&ndash; Small boxes (Stat box) &ndash;&gt;-->
+    <!--<div class="row">-->
+        <!--<div class="col-lg-3 col-xs-6" ng-repeat="game in games | orderBy: '-rank'">-->
+
+
+            <!--&lt;!&ndash; small box &ndash;&gt;-->
+            <!--<div class="small-box bg-white" style="background:#FFFFFF;">-->
+                <!--<div class="inner" style="padding:20px 20px 20px 20px;">-->
+                    <!--<div class="icon" style="position: relative;top:0px;right:0px; float:left">-->
+                        <!--<img class="cover-image" style="width:90px;vertical-align:top" src="http://lh3.googleusercontent.com/FDLGomNIsLLKddTpI7mg632FANXvQN8Xz1u_bnlv6wWud5vd4nTzYbzsS0ZzgIlKQmwP=w300-rw" alt="Cover art" aria-hidden="true" itemprop="image">-->
+                    <!--</div>-->
+                    <!--<h3 style="color: #505050;">{{game.title}}</h3>-->
+                    <!--<p style="color: #505050;">{{game.data.description}}</p>-->
+                    <!--</br>-->
+                    <!--<a href="#/games/{{game.gameId}}"> <button class="btn btn-block btn-primary btn-sm">Game info </button></a>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>&lt;!&ndash; ./col &ndash;&gt;-->
+
+    <!--</div>-->
+<!--</section>-->
+
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-lg-3 col-xs-6" ng-repeat="game in games | orderBy: '-rank'">
+
+            <!-- Gamecard -->
+
+            <div class="small-box bg-white gamecard">
+                <div class="inner">
+                    <div class="col-md-3">
+                        <div class="icon">
+                            <img class="cover-image" src="http://lh3.googleusercontent.com/FDLGomNIsLLKddTpI7mg632FANXvQN8Xz1u_bnlv6wWud5vd4nTzYbzsS0ZzgIlKQmwP=w300-rw" alt="Cover art" aria-hidden="true" itemprop="image">
+                        </div>
+                    </div>
+
+                    <div class="col-md-9">
+                        <h4>{{game.data.title}}</h4>
+                        <p>{{game.data.description}}</p>
+                        <a href="#/games/{{game.gameId}}"> <button class="btn btn-block btn-primary btn-sm">Game info</button></a>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- ./col -->

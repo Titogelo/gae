@@ -34,6 +34,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.google.appengine.api.utils.SystemProperty;
 import org.celstec.arlearn2.beans.account.Account;
 import org.celstec.arlearn2.beans.game.Config;
 import org.celstec.arlearn2.beans.game.Game;
@@ -45,9 +46,7 @@ import org.celstec.arlearn2.beans.run.Run;
 import org.celstec.arlearn2.beans.run.RunList;
 import org.celstec.arlearn2.beans.run.User;
 import org.celstec.arlearn2.cache.GeneralitemsCache;
-import org.celstec.arlearn2.delegators.AccountDelegator;
-import org.celstec.arlearn2.delegators.RunAccessDelegator;
-import org.celstec.arlearn2.delegators.RunDelegator;
+import org.celstec.arlearn2.delegators.*;
 import org.celstec.arlearn2.jdo.manager.GeneralItemManager;
 import org.celstec.arlearn2.jdo.manager.RunManager;
 import org.celstec.arlearn2.jdo.manager.UserManager;
@@ -103,6 +102,52 @@ public class MyRuns extends Service {
 		}
 		return serialise(rd.getParticipateRuns(from, until), accept);
 	}
+
+	@GET
+	@Produces({ MediaType.TEXT_HTML })
+	@Path("/responses/{userId}/runId/{runId}")
+	public String getResponse(
+			@PathParam("userId") String userId,
+			@PathParam("runId") Long runId
+	){
+		ResponseAsHtmlDelegator responseAsHtmlDelegator = new ResponseAsHtmlDelegator(userId, runId);
+		responseAsHtmlDelegator.loadRun();
+		responseAsHtmlDelegator.loadGeneralItems();
+		responseAsHtmlDelegator.loadResponses();
+		return responseAsHtmlDelegator.toString();
+	}
+
+
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Path("/responses/sendMail/runId/{runId}")
+	public String sendResponsesByMail(
+
+			@HeaderParam("Authorization") String token,
+			@DefaultValue("application/json") @HeaderParam("Accept") String accept,
+			@PathParam("runId") Long runId
+	){
+		if (!validCredentials(token))
+			return serialise(getInvalidCredentialsBean(), accept);
+
+		UsersDelegator ud = new UsersDelegator(token);
+		Account account = ud.getCurrentAccount();
+		MailDelegator md = new MailDelegator(token);
+		String url = "http://streetlearn.appspot.com/rest/myRuns/responses/"+account.getFullId()+"/runId/"+runId;
+
+		ResponseAsHtmlDelegator responseAsHtmlDelegator = new ResponseAsHtmlDelegator(account.getFullId(), runId);
+		responseAsHtmlDelegator.loadRun();
+		responseAsHtmlDelegator.loadGeneralItems();
+		responseAsHtmlDelegator.loadResponses();
+
+		String results = "results are available at < a href="+url+">"+url+"</a>";
+		String onleesbaar = "<SPAN>Is deze mail onleesbaar? "+
+				"Open "+url+"</SPAN>";
+		responseAsHtmlDelegator.setMailOnleesBaar(onleesbaar);
+		md.sendMail("no-reply@" + SystemProperty.applicationId.get() + ".appspotmail.com", account.getName(), account.getEmail(), "Resultaten", responseAsHtmlDelegator.toString());
+		return "{'result':'ok'}";
+	}
+
 
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })

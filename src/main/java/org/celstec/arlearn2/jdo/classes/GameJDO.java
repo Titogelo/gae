@@ -69,6 +69,13 @@ public class GameJDO extends GameClass {
     @Persistent
     private Integer theme;
 
+	@Persistent
+	private String googlePlayUrl;
+
+	@Persistent
+	private String appStoreUrl;
+
+
 	public Long getGameId() {
 		return id.getId();
 	}
@@ -188,4 +195,20 @@ public class GameJDO extends GameClass {
     public void setTheme(Integer theme) {
         this.theme = theme;
     }
+
+	public String getGooglePlayUrl() {
+		return googlePlayUrl;
+	}
+
+	public void setGooglePlayUrl(String googlePlayUrl) {
+		this.googlePlayUrl = googlePlayUrl;
+	}
+
+	public String getAppStoreUrl() {
+		return appStoreUrl;
+	}
+
+	public void setAppStoreUrl(String appStoreUrl) {
+		this.appStoreUrl = appStoreUrl;
+	}
 }

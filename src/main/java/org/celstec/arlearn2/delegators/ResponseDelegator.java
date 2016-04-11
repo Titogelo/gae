@@ -49,7 +49,9 @@ public class ResponseDelegator extends GoogleDelegator {
         }
         UsersDelegator qu = new UsersDelegator(this);
         r.setUserEmail(qu.getCurrentUserAccount());
-
+        if (r.getTimestamp()==null){
+            r.setTimestamp(System.currentTimeMillis());
+        }
         long id = ResponseManager.addResponse(r.getGeneralItemId(), r.getResponseValue(), run.getRunId(), r.getUserEmail(), r.getTimestamp(), r.getLat(), r.getLng());
         r.setResponseId(id);
         r.setResponseValue(ResponseManager.normalizeValue(r.getResponseValue()));
