@@ -3,7 +3,7 @@ angular.module('ARLearn')
 
         $routeProvider
             .when('/home', {
-                templateUrl: '/ng/templates/home.html',
+                templateUrl: './templates/home.html',
                 controller: 'HomeController'
             })
             .when('/login', {
