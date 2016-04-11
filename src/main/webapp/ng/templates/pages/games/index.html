@@ -1,0 +1,67 @@
+<!--all games<br><br>-->
+<!--{{games}}-->
+
+
+<!--<div ng-repeat="gameId in games">-->
+
+  <!--{{getGame(gameId).title}}-->
+
+
+
+<!--</div>-->
+
+<!--{{addDummy()}}-->
+
+<!--Dis:{{disableGameLoading}}<br>-->
+
+<!--<div infinite-scroll='loadMoreGames()' infinite-scroll-distance='1' infinite-scroll-disabled="disableGameLoading">-->
+<!--<div ng-repeat="game in games.games" >-->
+    <!--{{game.gameId}} <br>-->
+    <!--{{game.title}} <br>-->
+    <!--{{game.sharing}} <br>-->
+    <!--{{game.mapAvailable}} <br>-->
+
+    <!--<pre>{{game}}</pre>-->
+<!--</div>-->
+<!--</div>-->
+
+
+<arl-header></arl-header>
+<arl-sidebar></arl-sidebar>
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1 class="dashboardtitle">My Games
+
+        </h1>
+    </section>
+
+
+
+    <section class="content" style="height:100vh; ">
+        <div class="row">
+            <div class="col-md-10" ></div>
+            <div class="col-md-2" >
+                <a href="#newGame" class="btn btn-block btn-primary">New Game</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" >
+
+                <table class="table table-hover">
+                    <tbody infinite-scroll='loadMoreGames()' infinite-scroll-distance='1' infinite-scroll-immediate-check ="true" infinite-scroll-disabled="disableGameLoading">
+                    <tr ng-repeat="game in games.games">
+
+                        <td><a href="#/game/{{game.gameId}}">{{game.title}}</a>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </section>
+
+</div>
