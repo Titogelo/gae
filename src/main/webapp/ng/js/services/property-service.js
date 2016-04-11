@@ -1,3 +1,3 @@
 angular.module('ARLearn').constant('config', {
-    "server": "http://localhost:8888"
+    "server": "http://streetlearn.appspot.com"
 });
